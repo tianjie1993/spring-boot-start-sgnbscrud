@@ -1,0 +1,53 @@
+{
+  "groups": [
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "CrudProperties",
+      "type": "com.sgnbs.crud.autoconfig.CrudProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.packageScan",
+      "type": "java.lang.String",
+      "defaultValue":"com.sgnbs"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.insertName",
+      "type": "java.lang.String",
+      "defaultValue":"insertSelective"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.updateName",
+      "type": "java.lang.String",
+      "defaultValue":"updateByPrimaryKeySelective"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.delelteName",
+      "type": "java.lang.String",
+      "defaultValue":"deleteByPrimaryKey"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.selectOneName",
+      "type": "java.lang.String",
+      "defaultValue":"selectByPrimaryKey"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.delStatus",
+      "type": "java.lang.String",
+      "defaultValue":"99"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.delfield",
+      "type": "java.lang.String",
+      "defaultValue":"status"
+    }
+  ]
+}
