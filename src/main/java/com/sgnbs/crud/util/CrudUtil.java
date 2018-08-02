@@ -381,6 +381,22 @@ public class CrudUtil{
 		return null;
 	}
 
+    public  Class<?> getFieldType(Object o,String fieldname){
+        Field[] declaredFields = null;
+        if(o instanceof Class) {
+            Class<?> clz = (Class<?>)o;
+            declaredFields = clz.getDeclaredFields();
+        }else {
+            declaredFields = o.getClass().getDeclaredFields();
+        }
+        for (Field field : declaredFields) {
+            if(fieldname.equals(field.getName())) {
+                return  field.getType();
+            }
+        }
+        return null;
+    }
+
 	public  String getIdStr(Class<?> clz) {
 		String idstr = "id";
 		Field []fields = clz.getDeclaredFields();

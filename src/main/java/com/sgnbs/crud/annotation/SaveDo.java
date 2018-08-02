@@ -1,21 +1,19 @@
 package com.sgnbs.crud.annotation;
 
 
-import org.springframework.stereotype.Service;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for Service 
+ * Annotation for save do 
  * @author: tianj 
  * @since 3.0
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Service
-public @interface ModelService {
-
+public @interface SaveDo {
+	
+	Class<?> value();
 }

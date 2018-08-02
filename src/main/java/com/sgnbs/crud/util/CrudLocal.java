@@ -2,11 +2,11 @@ package com.sgnbs.crud.util;
 
 public class CrudLocal {
 
-    private static final ThreadLocal<String> ERROR_MSG = new ThreadLocal<String>();
+    private static final ThreadLocal<String> ERROR_MSG = new ThreadLocal<>();
 
-    private static final ThreadLocal<Boolean> ISNEW = new ThreadLocal<Boolean>();
+    private static final ThreadLocal<Boolean> ISNEW = new ThreadLocal<>();
 
-    private static final ThreadLocal<String> VIEWNAME = new ThreadLocal<String>();
+    private static final ThreadLocal<String> VIEWNAME = new ThreadLocal<>();
 
 
     public static void addErrorMsg(String msg) {

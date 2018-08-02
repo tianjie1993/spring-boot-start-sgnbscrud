@@ -2,6 +2,7 @@ package com.sgnbs.crud.autoconfig;
 
 
 import com.sgnbs.crud.cache.CrudCache;
+import com.sgnbs.crud.controller.CrudController;
 import com.sgnbs.crud.util.CrudUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,5 +23,10 @@ public class CrudAutoConfiguration {
     @Bean
     public CrudUtil getCrudUtil(CrudProperties crudProperties, ApplicationContext applicationContext){
         return new CrudUtil(crudProperties,applicationContext);
+    }
+
+    @Bean
+    public CrudController getCrudController(){
+        return new CrudController();
     }
 }

@@ -1,10 +1,9 @@
 package com.sgnbs.crud.cache;
 
-import com.sgnbs.crud.annotation.EumConfig;
-import com.sgnbs.crud.annotation.ModelDAO;
-import com.sgnbs.crud.annotation.Table;
+import com.sgnbs.crud.annotation.*;
 import com.sgnbs.crud.autoconfig.CrudProperties;
 import com.sgnbs.crud.eum.AbstractAutoConfigEums;
+import com.sgnbs.crud.exception.AnnoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -35,11 +35,15 @@ public class CrudCache{
 	public CrudCache(CrudProperties crudProperties,ApplicationContext applicationContext){
 		this.crudProperties = crudProperties;
 		this.applicationContext = applicationContext;
-		run();
+		try {
+			run();
+		} catch (AnnoException e) {
+			e.printStackTrace();
+		}
 	}
 
 
-	public  void run() {
+	public  void run() throws AnnoException {
 		log.info("config model to dao and Service etc...,now scan package is {}",crudProperties.getPackageScan());
 		Field field = null;
 		Vector<Class<?>> classes = new Vector<>();
@@ -70,9 +74,33 @@ public class CrudCache{
         			((AbstractAutoConfigEums) o).bindEums();
 				}
 			}
+			Method[] methods = clz.getMethods();
+			for(Method method : methods) {
+				SaveDo saveDo = method.getAnnotation(SaveDo.class);
+				ToDetail toDetail = method.getAnnotation(ToDetail.class);
+				ToSave toSave = method.getAnnotation(ToSave.class);
+				DelDo delDo = method.getAnnotation(DelDo.class);
+				addToMap(clz, method, null != saveDo, savedo_map, null!=saveDo?saveDo.value().getSimpleName():"");
+				addToMap(clz, method, null!=toDetail, todetail_map, null!=toDetail?toDetail.value().getSimpleName():"");
+				addToMap(clz, method, null!=delDo, deldo_map, null!=delDo?delDo.value().getSimpleName():"");
+				addToMap(clz, method, null!=toSave, tosave_map, null!=toSave?toSave.value().getSimpleName():"");
+			}
         }
 
         log.info("model relationship finished");
+	}
+
+	private void addToMap(Class<?> clz, Method method, boolean b, Map<String, ClassMethod> cachemap, String simpleName) throws AnnoException {
+		if(b) {
+			if(null!=clz.getAnnotation(ModelService.class)) {
+				if(null!= cachemap.get(simpleName)) {
+					throw new AnnoException();
+				}
+				cachemap.put(simpleName, new ClassMethod(clz, method));
+			}else {
+				throw new AnnoException();
+			}
+		}
 	}
 
 
@@ -83,6 +111,46 @@ public class CrudCache{
 	/**
 	 * key-驼峰实体类名.value-对应daoclass
 	 */
-	public static final Map<String,Class<?>> dao_map = new HashMap<String,Class<?>>();
+	public static final Map<String,Class<?>> dao_map = new HashMap<>();
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
+	public static final Map<String,ClassMethod> savedo_map = new HashMap<>();
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
+	public static final Map<String,ClassMethod> deldo_map = new HashMap<>();
+
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
+	public static final Map<String,ClassMethod> todetail_map = new HashMap<>();
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
+	public static final Map<String,ClassMethod> tosave_map = new HashMap<>();
+
+	public class ClassMethod {
+		private Class<?> clz;
+		private Method method;
+		public Class<?> getClz() {
+			return clz;
+		}
+		public void setClz(Class<?> clz) {
+			this.clz = clz;
+		}
+		public Method getMethod() {
+			return method;
+		}
+		public void setMethod(Method method) {
+			this.method = method;
+		}
+		public ClassMethod(Class<?> clz, Method method) {
+			super();
+			this.clz = clz;
+			this.method = method;
+		}
+
+	}
 
 }
