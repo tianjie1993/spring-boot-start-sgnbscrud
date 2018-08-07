@@ -8,7 +8,6 @@ import com.sgnbs.crud.util.EumUtil;
 import com.sgnbs.crud.util.StrUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class PageDataManagement {
 
     private PageDataContainerintf pageDataContainerintf;
 
-    public void transformData(Object o) throws InvocationTargetException, IllegalAccessException {
+    public void transformData(Object o) throws InvocationTargetException, IllegalAccessException, InstantiationException {
         if( o instanceof List){
             List<Map<String,String>> list = (List<Map<String, String>>) o;
             List<Map<String,String>> newlist = new ArrayList<>();
@@ -45,7 +44,7 @@ public class PageDataManagement {
                         String []eumstr = key.split("-");
                         CrudCache.ClassMethod clm = CrudCache.tran_map.get(eumstr[1].toLowerCase());
                         if(null!=clm){
-                            newvalue = (String) clm.getMethod().invoke(clm.getClz(), newvalue);
+                            newvalue = (String) clm.getMethod().invoke(clm.getClz().newInstance(), newvalue);
                         }
                         newkey =  eumstr[2];
                     }

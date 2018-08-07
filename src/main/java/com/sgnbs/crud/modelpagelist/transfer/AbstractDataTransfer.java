@@ -13,7 +13,7 @@ public abstract class AbstractDataTransfer {
 
     abstract void bind();
 
-    AbstractDataTransfer configTranAction(Class<?> clz){
+    protected AbstractDataTransfer configTranAction(Class<?> clz){
         Method[] methods = clz.getMethods();
         for(Method method : methods) {
             Class<?>[] types = method.getParameterTypes();
