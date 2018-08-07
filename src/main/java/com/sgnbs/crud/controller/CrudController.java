@@ -1,8 +1,11 @@
 package com.sgnbs.crud.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sgnbs.crud.annotation.ID;
 import com.sgnbs.crud.autoconfig.CrudProperties;
 import com.sgnbs.crud.cache.CrudCache;
+import com.sgnbs.crud.modelpagelist.PageDataManagement;
 import com.sgnbs.crud.resp.AjaxResult;
 import com.sgnbs.crud.util.CrudLocal;
 import com.sgnbs.crud.util.CrudUtil;
@@ -41,6 +44,9 @@ public class CrudController{
 
 	@Autowired
 	private CrudProperties crudProperties;
+
+	@Autowired
+	private PageDataManagement pageDataManagement;
 
 
 	/**
@@ -192,6 +198,46 @@ public class CrudController{
 		return  AjaxResult.success(model_ins);
 	}
 
+	/**
+	 * 通用获取listdata接口
+	 * @param classname
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/list/{classname}/{num}/{ispage}")
+	public Object getListData(@PathVariable("classname") String classname,
+									 @PathVariable(value = "num",required = false,name ="0") Integer num,
+									 @PathVariable(value = "ispage",required = false,name ="true") boolean ispage,
+									 @RequestParam Map<String,String>  map) throws Exception {
+		String pageNoName = crudProperties.getPageNoName();
+		String pageSizeName = crudProperties.getPageSizeName();
+		if(StrUtil.notBlank(map.get(pageNoName)) && StrUtil.notBlank(map.get(pageSizeName))) {
+			PageHelper.startPage(Integer.parseInt(map.get(pageNoName)), Integer.parseInt(map.get(pageSizeName)));
+		}
+		map.remove(pageNoName);
+		map.remove(pageSizeName);
+		String modelname = StrUtil.getCamelClassname(classname);
+		CrudCache.ClassMethod clzm = CrudCache.listdo_map.get(modelname+num);
+		if(null!=clzm) {
+			clzm.getMethod().invoke(applicationContext.getBean(clzm.getClz()), map);
+		}
+		CrudCache.ClassMethod clzm1 = CrudCache.isList_map.get(modelname+num);
+		Object data = null;
+		if(null!=clzm1) {
+			if(ispage){
+				Page page = (Page)clzm1.getMethod().invoke(applicationContext.getBean(clzm1.getClz()), map);
+				pageDataManagement.transformData(page.getResult());
+				data = page;
+			}else{
+				Object o = clzm1.getMethod().invoke(applicationContext.getBean(clzm1.getClz()), map);
+				pageDataManagement.transformData(o);
+				data = o;
+			}
+		}
+		return pageDataManagement.success(data);
+	}
 
 
 	private void save(Object model_ins,Map<String,String> map)  throws Exception{

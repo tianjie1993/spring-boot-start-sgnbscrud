@@ -76,14 +76,24 @@ public class CrudCache{
 			}
 			Method[] methods = clz.getMethods();
 			for(Method method : methods) {
+				ListDo listdo = method.getAnnotation(ListDo.class);
 				SaveDo saveDo = method.getAnnotation(SaveDo.class);
 				ToDetail toDetail = method.getAnnotation(ToDetail.class);
 				ToSave toSave = method.getAnnotation(ToSave.class);
 				DelDo delDo = method.getAnnotation(DelDo.class);
+				Islist islist = method.getAnnotation(Islist.class);
 				addToMap(clz, method, null != saveDo, savedo_map, null!=saveDo?saveDo.value().getSimpleName():"");
 				addToMap(clz, method, null!=toDetail, todetail_map, null!=toDetail?toDetail.value().getSimpleName():"");
 				addToMap(clz, method, null!=delDo, deldo_map, null!=delDo?delDo.value().getSimpleName():"");
 				addToMap(clz, method, null!=toSave, tosave_map, null!=toSave?toSave.value().getSimpleName():"");
+				addToMap(clz, method, null!=islist, tosave_map, null!=islist?modelDAO.value().getSimpleName()+islist.num():"");
+				if(null!=listdo){
+					int []nums = listdo.nums();
+					for(int num : nums){
+						addToMap(clz, method, true, listdo_map, listdo.value().getSimpleName()+num);
+					}
+				}
+
 			}
         }
 
@@ -119,6 +129,10 @@ public class CrudCache{
 	/**
 	 * key-驼峰实体类名.value-对应ClassMethod
 	 */
+	public static final Map<String,ClassMethod> listdo_map = new HashMap<String,ClassMethod>();
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
 	public static final Map<String,ClassMethod> deldo_map = new HashMap<>();
 
 	/**
@@ -128,9 +142,17 @@ public class CrudCache{
 	/**
 	 * key-驼峰实体类名.value-对应ClassMethod
 	 */
+	public static final Map<String,ClassMethod> isList_map = new HashMap<>();
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
 	public static final Map<String,ClassMethod> tosave_map = new HashMap<>();
+	/**
+	 * key-驼峰实体类名.value-对应ClassMethod
+	 */
+	public static final Map<String,ClassMethod> tran_map = new HashMap<>();
 
-	public class ClassMethod {
+	public static class ClassMethod {
 		private Class<?> clz;
 		private Method method;
 		public Class<?> getClz() {

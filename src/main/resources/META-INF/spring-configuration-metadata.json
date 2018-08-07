@@ -45,6 +45,18 @@
     },
     {
       "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.pageNoName",
+      "type": "java.lang.String",
+      "defaultValue":"pageNo"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
+      "name": "crud.pageSizeName",
+      "type": "java.lang.String",
+      "defaultValue":"pageSize"
+    },
+    {
+      "sourceType": "com.sgnbs.crud.autoconfig.CrudProperties",
       "name": "crud.delfield",
       "type": "java.lang.String",
       "defaultValue":"status"

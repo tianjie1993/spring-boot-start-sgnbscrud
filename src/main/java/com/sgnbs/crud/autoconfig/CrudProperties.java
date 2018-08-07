@@ -20,6 +20,10 @@ public class CrudProperties {
 
     private String delfield="status";
 
+    private String pageNoName  = "pageNo";
+
+    private String pageSizeName = "pageSize";
+
     public String getDelStatus() {
         return delStatus;
     }
@@ -74,5 +78,21 @@ public class CrudProperties {
 
     public void setSelectOneName(String selectOneName) {
         this.selectOneName = selectOneName;
+    }
+
+    public String getPageNoName() {
+        return pageNoName;
+    }
+
+    public void setPageNoName(String pageNoName) {
+        this.pageNoName = pageNoName;
+    }
+
+    public String getPageSizeName() {
+        return pageSizeName;
+    }
+
+    public void setPageSizeName(String pageSizeName) {
+        this.pageSizeName = pageSizeName;
     }
 }
