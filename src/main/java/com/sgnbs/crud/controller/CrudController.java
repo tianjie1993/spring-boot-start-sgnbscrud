@@ -206,10 +206,10 @@ public class CrudController{
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@GetMapping("/list/{classname}/{num}/{ispage}")
+	@GetMapping("/list/{classname}/{ispage}/{num}")
 	public Object getListData(@PathVariable("classname") String classname,
-									 @PathVariable(value = "num",required = false,name ="0") Integer num,
-									 @PathVariable(value = "ispage",required = false,name ="true") boolean ispage,
+									 @PathVariable(value = "num") Integer num,
+									 @PathVariable(value = "ispage") boolean ispage,
 									 @RequestParam Map<String,String>  map) throws Exception {
 		String pageNoName = crudProperties.getPageNoName();
 		String pageSizeName = crudProperties.getPageSizeName();
