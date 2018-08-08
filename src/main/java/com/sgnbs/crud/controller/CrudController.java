@@ -158,7 +158,7 @@ public class CrudController{
         Method setIdMethod = model.getMethod("set"+StrUtil.firstUppercase(idste), idtype);
 		Class<?> modeldao = CrudCache.dao_map.get(classname);
 		Object dao = applicationContext.getBean(modeldao);
-		Method updatestatus = modeldao.getMethod(crudProperties.getDelelteName(), model);
+		Method updatestatus = modeldao.getMethod(crudProperties.getUpdateName(), model);
 		for(String id : idsz) {
 			if(idtype.equals(Integer.class)) {
 				setIdMethod.invoke(o, Integer.parseInt(id));
