@@ -213,7 +213,7 @@ public class CrudController{
 									 @RequestParam Map<String,String>  map) throws Exception {
 		String pageNoName = crudProperties.getPageNoName();
 		String pageSizeName = crudProperties.getPageSizeName();
-		if(StrUtil.notBlank(map.get(pageNoName)) && StrUtil.notBlank(map.get(pageSizeName))) {
+		if(StrUtil.notBlank(map.get(pageNoName)) && StrUtil.notBlank(map.get(pageSizeName)) && ispage) {
 			PageHelper.startPage(Integer.parseInt(map.get(pageNoName)), Integer.parseInt(map.get(pageSizeName)));
 		}
 		map.remove(pageNoName);

@@ -86,7 +86,7 @@ public class CrudCache{
 				addToMap(clz, method, null!=toDetail, todetail_map, null!=toDetail?toDetail.value().getSimpleName():"");
 				addToMap(clz, method, null!=delDo, deldo_map, null!=delDo?delDo.value().getSimpleName():"");
 				addToMap(clz, method, null!=toSave, tosave_map, null!=toSave?toSave.value().getSimpleName():"");
-				addToMap(clz, method, null!=islist, tosave_map, null!=islist?modelDAO.value().getSimpleName()+islist.num():"");
+				addToMap(clz, method, null!=islist, isList_map, null!=islist?modelDAO.value().getSimpleName()+islist.num():"");
 				if(null!=listdo){
 					int []nums = listdo.nums();
 					for(int num : nums){
@@ -107,7 +107,9 @@ public class CrudCache{
 					throw new AnnoException();
 				}
 				cachemap.put(simpleName, new ClassMethod(clz, method));
-			}else {
+			}else if(cachemap.equals(isList_map)){
+				cachemap.put(simpleName, new ClassMethod(clz, method));
+			}else{
 				throw new AnnoException();
 			}
 		}

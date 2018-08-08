@@ -5,7 +5,7 @@ package com.sgnbs.crud.exception;
  * @author tianj
  *
  */
-public class AnnoException extends Exception{
+public class AnnoException extends RuntimeException{
 	
 	private static final long serialVersionUID = 674401378285901451L;
 

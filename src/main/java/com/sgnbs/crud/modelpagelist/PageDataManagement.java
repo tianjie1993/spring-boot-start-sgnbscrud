@@ -3,12 +3,13 @@ package com.sgnbs.crud.modelpagelist;
 import com.github.pagehelper.Page;
 import com.sgnbs.crud.cache.CrudCache;
 import com.sgnbs.crud.modelpagelist.container.PageDataContainerintf;
+import com.sgnbs.crud.modelpagelist.transfer.AbstractDataTransfer;
 import com.sgnbs.crud.resp.AjaxResult;
 import com.sgnbs.crud.util.EumUtil;
 import com.sgnbs.crud.util.StrUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import javax.annotation.Resource;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +20,15 @@ import java.util.Map;
 public class PageDataManagement {
 
 
-    @Resource
     private ApplicationContext applicationContext;
 
     private PageDataContainerintf pageDataContainerintf;
+
+    private AbstractDataTransfer abstractDataTransfer;
+
+    public PageDataManagement(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     public void transformData(Object o) throws InvocationTargetException, IllegalAccessException, InstantiationException {
         if( o instanceof List){
@@ -73,5 +79,10 @@ public class PageDataManagement {
     public void setPageDataContainer(Class<? extends PageDataContainerintf> container){
         this.pageDataContainerintf = applicationContext.getBean(container);
 
+    }
+
+    public void setAbstractDataTransfer(Class<? extends  AbstractDataTransfer> abstractDataTransfer){
+        this.abstractDataTransfer=applicationContext.getBean(abstractDataTransfer);
+        this.abstractDataTransfer.bind();
     }
 }

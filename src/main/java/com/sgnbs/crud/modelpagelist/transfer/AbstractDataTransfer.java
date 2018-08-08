@@ -11,7 +11,7 @@ public abstract class AbstractDataTransfer {
             configTranAction(DateTimeTransfer.class);
     }
 
-    abstract void bind();
+    public abstract void bind();
 
     protected AbstractDataTransfer configTranAction(Class<?> clz){
         Method[] methods = clz.getMethods();
