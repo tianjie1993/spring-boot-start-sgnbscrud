@@ -11,7 +11,7 @@ public class DateTimeTransfer {
 
     @ListTransf("Date")
     public String Date(Object date) throws ParseException {
-        if(StrUtil.isBlank(String.valueOf(date))){
+        if(null!=date && StrUtil.isBlank(String.valueOf(date))){
             return "";
         }
         Date d = null;
@@ -27,7 +27,7 @@ public class DateTimeTransfer {
 
     @ListTransf("time")
     public String TimeStamp(Object date) throws ParseException {
-        if(StrUtil.isBlank(String.valueOf(date))){
+        if(null!=date && StrUtil.isBlank(String.valueOf(date))){
             return "";
         }
         Date d = null;
