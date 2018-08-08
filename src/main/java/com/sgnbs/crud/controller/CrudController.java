@@ -308,7 +308,7 @@ public class CrudController{
 		//1.保存表单时处理个性化需求
 		CrudCache.ClassMethod clzm = CrudCache.savedo_map.get(modelname);
 		if(null!=clzm) {
-			clzm.getMethod().invoke(applicationContext.getBean(clzm.getClz()), model_ins);
+			clzm.getMethod().invoke(applicationContext.getBean(clzm.getClz()), model_ins,map);
 		}
 		
 	}
