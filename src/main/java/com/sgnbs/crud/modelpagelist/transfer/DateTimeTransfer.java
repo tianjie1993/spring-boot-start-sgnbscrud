@@ -15,7 +15,7 @@ public class DateTimeTransfer {
             return "";
         }
         Date d = null;
-        SimpleDateFormat ssdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat ssdf = new SimpleDateFormat("yyyy-MM-dd");
         if (date != null) {
             d = ssdf.parse(date.toString());
         } else {
@@ -31,7 +31,7 @@ public class DateTimeTransfer {
             return "";
         }
         Date d = null;
-        SimpleDateFormat ssdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat ssdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (date != null) {
             d = ssdf.parse(date.toString());
         } else {
