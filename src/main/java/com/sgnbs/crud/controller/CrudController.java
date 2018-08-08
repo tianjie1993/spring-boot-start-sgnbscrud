@@ -159,13 +159,18 @@ public class CrudController{
 		Class<?> modeldao = CrudCache.dao_map.get(classname);
 		Object dao = applicationContext.getBean(modeldao);
 		Method updatestatus = modeldao.getMethod(crudProperties.getUpdateName(), model);
+		Class<?> delfieldtype = model.getField(crudProperties.getDelfield()).getType();
 		for(String id : idsz) {
 			if(idtype.equals(Integer.class)) {
 				setIdMethod.invoke(o, Integer.parseInt(id));
 			}else {
 				setIdMethod.invoke(o, id);
 			}
-			setStatusMethod.invoke(o,crudProperties.getDelStatus());
+			if(delfieldtype==Integer.class){
+				setStatusMethod.invoke(o,Integer.parseInt(crudProperties.getDelStatus()));
+			}else{
+				setStatusMethod.invoke(o,crudProperties.getDelStatus());
+			}
 			updatestatus.invoke(dao, o);
 		}
 	    return AjaxResult.success();
